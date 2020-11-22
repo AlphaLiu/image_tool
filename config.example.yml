@@ -1,0 +1,4 @@
+imgdir_in: IMAGE_SRC
+imgdir_out: IMAGE_DEST
+split_to: SPLIT_NUM
+split_direction: "水平" #水平 or 垂直
