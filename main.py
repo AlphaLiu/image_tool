@@ -11,7 +11,9 @@ logging.basicConfig(format='[%(levelname)s](%(name)s) %(asctime)s : %(message)s'
                     datefmt='%Y-%m-%d %H:%M:%S', level=logging.INFO)
 
 def getAllImages(path):
-   return [os.path.join(path,f) for f in os.listdir(path) if f.endswith('.jpg')|f.endswith('.jpeg')|f.endswith('.png')]
+    files = os.listdir(path)
+    files.sort()
+    return [os.path.join(path,f) for f in files if f.endswith('.jpg')|f.endswith('.jpeg')|f.endswith('.png')]
 
 #切割图片
 def splitImage(dir_in, dir_out, direction, blocks):
@@ -54,7 +56,7 @@ def mergeImage(dir_in, dir_out, direction, from_cnt, by, prefix):
     # group per from_cnt
     groups = [pathlist[i:i + from_cnt] for i in range(0, len(pathlist), from_cnt)]
     k = 0
-
+    
     for group in groups:
         imglist = []
         width = 0
