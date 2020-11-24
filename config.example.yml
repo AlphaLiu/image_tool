@@ -1,4 +1,14 @@
 imgdir_in: IMAGE_SRC
 imgdir_out: IMAGE_DEST
-split_to: SPLIT_NUM
-split_direction: "水平" #水平 or 垂直
+method: split # split or merge or crop
+split: # configurations for split
+ to: YOUR_SPLIT_NUM_FOR_ONE_IMAGE
+ direction: H # H(orizonal) or V(ertical)
+crop: # configurations for cropt
+  suffix: _output
+  cut: [0,0,0,3] #[left, up, right, down]
+merge: # configurations for merge
+  prefix: Merge_
+  from: YOUR_IMAGES_FOR_ONE
+  direction: H # H(orizonal) or V(ertical)
+  by: reverse # sequence or reverse
