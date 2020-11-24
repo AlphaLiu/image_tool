@@ -8,7 +8,7 @@ crop: # configurations for cropt
   suffix: _output
   cut: [0,0,0,3] #[left, up, right, down]
 merge: # configurations for merge
-  prefix: Merge_
+  suffix: _merge
   from: YOUR_IMAGES_FOR_ONE
   direction: H # H(orizonal) or V(ertical)
   by: reverse # sequence or reverse

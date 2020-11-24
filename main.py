@@ -51,12 +51,12 @@ def splitImage(dir_in, dir_out, direction, blocks):
             k += 1
 
 #合并图片
-def mergeImage(dir_in, dir_out, direction, from_cnt, by, prefix):
+def mergeImage(dir_in, dir_out, direction, from_cnt, by, suffix):
     pathlist = getAllImages(dir_in)
     # group per from_cnt
     groups = [pathlist[i:i + from_cnt] for i in range(0, len(pathlist), from_cnt)]
-    k = 0
-    
+    # k = 0
+
     for group in groups:
         imglist = []
         width = 0
@@ -65,7 +65,12 @@ def mergeImage(dir_in, dir_out, direction, from_cnt, by, prefix):
         if by == 'reverse':
             group = group[::-1]
 
+        namelist = []
         for path in group:
+            _, file = os.path.split(path)
+            name, _ = os.path.splitext(file)
+            namelist.append(name)
+
             im = pil_image.open(path)
             iw, ih = im.size
             if direction == 'H':
@@ -85,27 +90,23 @@ def mergeImage(dir_in, dir_out, direction, from_cnt, by, prefix):
             iw, ih = img.size
 
             if direction == 'H':
-                if coord2 == 0:
-                    coord2 = iw
+                coord2 += iw
                 box = (coord1, 0, coord2, height)
                 coord1 += iw
-                coord2 += iw
             else:
-                if coord2 == 0:
-                    coord2 = ih
+                coord2 += ih
                 box = (0, coord1, width, coord2)
                 coord1 += ih
-                coord2 += ih
             # logging.info("rect box {0}".format(box))
             target.paste(img, box)
 
-        newimg = dir_out+'\\'+prefix+'{0:03d}'.format(k)+'.jpg'
+        newimg = dir_out+'\\'+'_'.join(namelist)+suffix+'.jpg'
 
         logging.info("=> {0}".format(newimg))
         
         target.save(newimg, quality=95)
         imglist = []
-        k += 1
+        # k += 1
 
 #裁剪图片
 def cropImage(dir_in, dir_out, suffix, cut):
@@ -145,6 +146,6 @@ if __name__ == '__main__':
         elif method == 'crop':
             cropImage(conf['imgdir_in'], conf['imgdir_out'], conf['crop']['suffix'], conf['crop']['cut'])
         elif method == 'merge':
-            mergeImage(conf['imgdir_in'], conf['imgdir_out'], conf['merge']['direction'], conf['merge']['from'], conf['merge']['by'], conf['merge']['prefix'])
+            mergeImage(conf['imgdir_in'], conf['imgdir_out'], conf['merge']['direction'], conf['merge']['from'], conf['merge']['by'], conf['merge']['suffix'])
         else:
             pass
